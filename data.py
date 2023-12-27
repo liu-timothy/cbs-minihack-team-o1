@@ -14,3 +14,4 @@ class DNADataset(Dataset):
 
     def get_labels(self):
         return [label for _, label in self.sequences]
+
