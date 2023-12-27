@@ -11,3 +11,6 @@ class DNADataset(Dataset):
     def __getitem__(self, idx):
         seq, label = self.sequences[idx]
         return torch.tensor(seq, dtype=torch.long), torch.tensor(label, dtype=torch.float32)
+    
+    def get_labels(self):
+        return [label for _, label in self.sequences]
