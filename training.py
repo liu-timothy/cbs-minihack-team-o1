@@ -1,3 +1,4 @@
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -20,6 +21,10 @@ def starting_train(train_dataset, val_dataset, model: nn.Module, hyperparameters
     optimizer = optim.Adam(model.parameters())
     loss_fn = nn.BCEWithLogitsLoss()
 
+    # Compute class weights
+    labels = train_dataset.get_labels()
+    class_weights = torch.tensor([1.0 / (labels == 0).sum(), 1.0 / (labels == 1).sum()]).to(device)
+
     step = 0
     for epoch in range(epochs):
         print(f"Epoch {epoch + 1} of {epochs}")
@@ -32,6 +37,10 @@ def starting_train(train_dataset, val_dataset, model: nn.Module, hyperparameters
             optimizer.zero_grad()
             predictions = model(batch_inputs)
             loss = loss_fn(predictions.squeeze(), batch_labels.float())
+
+            # Apply class weights to the loss
+            loss = (loss * class_weights[batch_labels.long()]).mean()
+
             loss.backward()
             optimizer.step()
 
