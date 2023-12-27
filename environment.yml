@@ -1,0 +1,17 @@
+name: chromatin_prediction
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.8  # or your preferred Python version
+  - numpy
+  - scikit-learn
+  - pandas
+  - matplotlib
+  - seaborn
+  - jupyter
+  - scikit-learn
+  - scikit-image
+  - biopython
+  #- tensorflow  # Uncomment if you're using TensorFlow
+  - pytorch  # Uncomment if you're using PyTorch
