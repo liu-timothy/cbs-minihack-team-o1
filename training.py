@@ -23,7 +23,7 @@ def starting_train(train_dataset, val_dataset, model: nn.Module, hyperparameters
 
     # Compute class weights
     labels = train_dataset.get_labels()
-    class_weights = torch.tensor([1.0 / (labels == 0).sum(), 1.0 / (labels == 1).sum()]).to(device)
+    class_weights = torch.tensor([1.0 / labels.count(0), 1.0 / labels.count(1)]).to(device)
 
     step = 0
     for epoch in range(epochs):
