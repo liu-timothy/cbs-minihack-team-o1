@@ -11,9 +11,11 @@ class CNN(nn.Module):
         self.fc2 = nn.Linear(64, 1)
 
     def forward(self, x):
-        x = F.one_hot(x, num_classes=4).permute(0, 2, 1).float()  # One-hot encoding and permuting to fit Conv1d
-        x = self.pool(F.relu(self.conv1(x)))
-        x = torch.flatten(x, 1)  # Flatten all dimensions except batch
+        x = F.one_hot(x, num_classes=4).float()  # Assuming one-hot encoding for DNA sequences
+        x = self.conv1(x)
+        x = F.relu(x)
+        x = self.pool(x)
+        x = x.view(-1, 32 * 100)  # Flatten the tensor before passing to the linear layer
         x = F.relu(self.fc1(x))
-        x = torch.sigmoid(self.fc2(x))
+        x = self.fc2(x)
         return x
