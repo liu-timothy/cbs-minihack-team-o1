@@ -18,8 +18,9 @@ def read_fasta(file, label):
     return sequences
 
 def encode_sequence(seq):
-    base_to_int = {'A': 0, 'T': 1, 'C': 2, 'G': 3}
-    return [base_to_int[base] for base in seq]
+    base_to_one_hot = {'A': [1, 0, 0, 0], 'T': [0, 1, 0, 0], 'C': [0, 0, 1, 0], 'G': [0, 0, 0, 1]}
+    one_hot_encoded = [base_to_one_hot[base] for base in seq]
+    return [element for sublist in one_hot_encoded for element in sublist]  # Flatten the list
 
 def main():
     accessible_sequences = read_fasta("files/accessible.fasta", 1) # 1 for accessible
