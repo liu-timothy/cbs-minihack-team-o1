@@ -11,7 +11,8 @@ class CNN(nn.Module):
         self.fc2 = nn.Linear(64, 1)
 
     def forward(self, x):
-        x = F.one_hot(x, num_classes=4).float()  # Assuming one-hot encoding for DNA sequences
+        x = F.one_hot(x, num_classes=4).float()  # Ensure this results in shape [batch_size, sequence_length, 4]
+        x = x.transpose(1, 2)  # Change shape to [batch_size, 4, sequence_length]
         x = self.conv1(x)
         x = F.relu(x)
         x = self.pool(x)
